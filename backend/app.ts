@@ -15,6 +15,10 @@ app.use(
     credentials: true
   })
 )
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Routes
 app.use(authRoutes)
 
 app.listen(port, () => console.log(`Listening on port ${port}...`))

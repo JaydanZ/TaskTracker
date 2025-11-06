@@ -27,11 +27,11 @@ function RouteComponent() {
         return
       }
 
-      const userid = value.userid
+      const user_id = value.userid
       const password = value.password
 
       try {
-        await auth.login({ userid, password })
+        await auth.signup({ user_id, password })
         navigate({ to: '/tasks' })
       } catch (error) {
         setError(error instanceof Error ? error.message : 'Login failed')
