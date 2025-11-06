@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as EditTskRouteImport } from './routes/editTsk'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
@@ -18,6 +19,11 @@ import { Route as AddTaskRouteImport } from './routes/addTask'
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AnalyticsRoute
   '/editTsk': typeof EditTskRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/editTsk': typeof EditTskRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,28 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/editTsk': typeof EditTskRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/addTask' | '/analytics' | '/editTsk' | '/login' | '/tasks'
+  fullPaths:
+    | '/addTask'
+    | '/analytics'
+    | '/editTsk'
+    | '/login'
+    | '/register'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/addTask' | '/analytics' | '/editTsk' | '/login' | '/tasks'
-  id: '__root__' | '/addTask' | '/analytics' | '/editTsk' | '/login' | '/tasks'
+  to: '/addTask' | '/analytics' | '/editTsk' | '/login' | '/register' | '/tasks'
+  id:
+    | '__root__'
+    | '/addTask'
+    | '/analytics'
+    | '/editTsk'
+    | '/login'
+    | '/register'
+    | '/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +98,7 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   EditTskRoute: typeof EditTskRoute
   LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
   TasksRoute: typeof TasksRoute
 }
 
@@ -86,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/tasks'
       preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -124,6 +154,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   EditTskRoute: EditTskRoute,
   LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
   TasksRoute: TasksRoute,
 }
 export const routeTree = rootRouteImport

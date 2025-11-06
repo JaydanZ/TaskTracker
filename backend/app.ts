@@ -1,6 +1,20 @@
-import express from "express";
+import express from 'express'
+import authRoutes from './routes/auth'
+import cors from 'cors'
+import helmet from 'helmet'
+import { config } from './config'
 
-const app = express();
-const port = process.env.PORT || 3001;
+const app = express()
+const { port } = config
 
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+// Middlewares
+app.use(helmet())
+app.use(
+  cors({
+    origin: config.corsOrigin,
+    credentials: true
+  })
+)
+app.use(authRoutes)
+
+app.listen(port, () => console.log(`Listening on port ${port}...`))

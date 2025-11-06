@@ -1,11 +1,11 @@
+import { useState } from 'react'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { Button } from '@headlessui/react'
 import clsx from 'clsx'
-import { useState } from 'react'
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from 'hooks/useAuth'
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute('/register')({
   component: RouteComponent
 })
 
@@ -38,12 +38,11 @@ function RouteComponent() {
       }
     }
   })
-
   return (
     <div className="h-dvh flex justify-center items-center">
-      <div className="w-[500px] h-[430px] bg-zinc-900 flex flex-col items-start p-6 rounded-md">
+      <div className="w-[500px] h-[400px] bg-zinc-900 flex flex-col items-start p-6 rounded-md">
         <div className="text-white font-medium text-[2rem]">
-          Enter your Information
+          Register Account
         </div>
         <form>
           <div className="py-4">
@@ -108,7 +107,7 @@ function RouteComponent() {
               className="rounded w-[150px] mr-4 bg-orange-500 text-zinc-950 px-4 py-2 font-bold text-[1.5rem] data-hover:bg-orange-600"
               onClick={form.handleSubmit}
             >
-              Login
+              Register
             </Button>
           </div>
         </form>
@@ -117,10 +116,10 @@ function RouteComponent() {
         )}
         <div className="flex flex-row justify-center pt-5">
           <label className="font-medium text-zinc-400 pr-2">
-            Don't have an account?
+            Already have an account?
           </label>
-          <Link to="/register">
-            <label className="font-semibold text-orange-500">Register</label>
+          <Link to="/login">
+            <label className="font-semibold text-orange-500">Login</label>
           </Link>
         </div>
       </div>
