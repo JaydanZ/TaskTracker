@@ -2,6 +2,10 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+#ENV Vars
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+
 # Install pnpm
 RUN npm install -g pnpm
 
