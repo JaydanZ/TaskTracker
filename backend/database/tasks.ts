@@ -5,11 +5,10 @@ export const createTask = async (
   user_Id: string,
   taskData: CreateTaskInput
 ): Promise<Task> => {
-  let createdDate
+  const createdDate = new Date().toISOString()
   let completedDate
 
   if (taskData.status === 'done') {
-    createdDate = new Date().toISOString()
     completedDate = new Date().toISOString()
   }
   const { data, error } = await supabase
