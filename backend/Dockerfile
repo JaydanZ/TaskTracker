@@ -10,6 +10,7 @@ COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies
 RUN pnpm install
+RUN pnpm add typescript
 
 # Copy source code
 COPY . .
