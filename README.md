@@ -14,8 +14,8 @@ Live site can be found here: https://tasktrackerfrontend.onrender.com
 
 ## Credentials
 - Feel free to create a new user or use the provided one down below:
-username: jaydantest
-password: test123
+`username: jaydantest`
+`password: test123`
 
 ## Architechture
 - Front-end: Vite, React.js, Typescript, Tanstack Router, Tanstack Query, pnpm
