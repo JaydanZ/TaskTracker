@@ -10,12 +10,13 @@ COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies
 RUN pnpm install
+RUN pnpm add typescript
 
 # Copy source code
 COPY . .
 
 # Build the app
-RUN pnpm build
+RUN pnpm run build
 
 # Install serve to run the built app
 RUN pnpm add -g serve
