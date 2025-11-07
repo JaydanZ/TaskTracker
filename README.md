@@ -27,7 +27,7 @@ Live site can be found here: https://tasktrackerfrontend.onrender.com
 In case project needs to be run locally:
 
 ### Reminder
-The back-end uses Supabase (Postgres DB), so you will need to either use my created supabase DB (credentials provided in email) or create a supabase account > create project > SQL Editor > Run the following SQL code along with supplying the `SUPABASE_URL` & `SUPABASE_SERVICE_ROLE_KEY` ENV variables on the backend
+The back-end uses Supabase (Postgres DB), so you will need to either use my created supabase DB (credentials provided in email) or create a supabase account > create project > SQL Editor > Run the following SQL code along with supplying the `SUPABASE_URL` & `SUPABASE_SERVICE_ROLE_KEY` ENV variables
 
 Users Table:
 ```
