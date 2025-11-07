@@ -1,5 +1,5 @@
 import { supabase } from './supabase'
-import { Task, CreateTaskInput, UpdateTaskInput } from '../types'
+import { Task, CreateTaskInput, UpdateTaskInput, TaskStats } from '../types'
 
 export const createTask = async (
   user_Id: string,
@@ -101,5 +101,62 @@ export const deleteTask = async (
 
   if (error) {
     throw new Error(error.message)
+  }
+}
+
+export const getTaskStats = async (userId: string): Promise<TaskStats> => {
+  // Get all tasks for the user
+  const { data: tasks, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  const allTasks = tasks || []
+
+  // Calculate stats
+  const totalTasks = allTasks.length
+  const completedTasks = allTasks.filter((t) => t.status === 'done').length
+  const pendingTasks = allTasks.filter((t) => t.status !== 'done').length
+  const todoTasks = allTasks.filter((t) => t.status === 'todo').length
+  const inProgressTasks = allTasks.filter(
+    (t) => t.status === 'in-progress'
+  ).length
+
+  const completedTasksWithTime = allTasks.filter(
+    (t) => t.status === 'done' && t.completed_at
+  )
+
+  let averageCompletionTime = 0
+  if (completedTasksWithTime.length > 0) {
+    const totalTime = completedTasksWithTime.reduce((sum, task) => {
+      const createdDate = new Date(task.created_at)
+      const completedDate = new Date(task.completed_at!)
+      const diffInMs = completedDate.getTime() - createdDate.getTime()
+      const diffInDays = diffInMs / (1000 * 60 * 60 * 24)
+      return sum + diffInDays
+    }, 0)
+    averageCompletionTime = totalTime / completedTasksWithTime.length
+  }
+
+  // Priority breakdown
+  const priorityBreakdown = {
+    high: allTasks.filter((t) => t.priority === 'high').length,
+    medium: allTasks.filter((t) => t.priority === 'medium').length,
+    low: allTasks.filter((t) => t.priority === 'low').length
+  }
+
+  return {
+    totalTasks,
+    completedTasks,
+    pendingTasks,
+    todoTasks,
+    inProgressTasks,
+    averageCompletionTime,
+    completedTasksCount: completedTasksWithTime.length,
+    priorityBreakdown
   }
 }

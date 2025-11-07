@@ -33,3 +33,18 @@ export interface UpdateTaskInput {
   priority?: TaskPriority
   completed_at?: string | null
 }
+
+export interface TaskStats {
+  totalTasks: number
+  completedTasks: number
+  pendingTasks: number
+  todoTasks: number
+  inProgressTasks: number
+  averageCompletionTime: number
+  completedTasksCount: number
+  priorityBreakdown: {
+    high: number
+    medium: number
+    low: number
+  }
+}

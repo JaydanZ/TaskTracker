@@ -83,7 +83,7 @@ function TaskCard({
           <option value="in-progress">In Progress</option>
           <option value="done">Done</option>
         </select>
-        <div className="flex gap-3 ml-[20px]">
+        <div className="flex gap-3 ml-[20px] ">
           <Link
             to="/editTsk/$taskId"
             params={{ taskId: task.id }}

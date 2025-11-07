@@ -1,4 +1,4 @@
-import { Task, CreateTaskInput, UpdateTaskInput } from 'types/task'
+import { Task, CreateTaskInput, UpdateTaskInput, TaskStats } from 'types/task'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -17,7 +17,7 @@ export const taskAPI = {
     })
 
     if (!response.ok) {
-      throw new Error('Failed to fetch tasks')
+      throw new Error('Failed to fetch tasks.')
     }
 
     return response.json()
@@ -29,7 +29,7 @@ export const taskAPI = {
     })
 
     if (!response.ok) {
-      throw new Error('Failed to fetch task')
+      throw new Error('Failed to fetch task.')
     }
 
     return response.json()
@@ -44,7 +44,7 @@ export const taskAPI = {
 
     if (!response.ok) {
       const error = await response.json()
-      throw new Error(error.error || 'Failed to create task')
+      throw new Error(error.error || 'Failed to create task.')
     }
 
     return response.json()
@@ -59,7 +59,7 @@ export const taskAPI = {
 
     if (!response.ok) {
       const error = await response.json()
-      throw new Error(error.error || 'Failed to update task')
+      throw new Error(error.error || 'Failed to update task.')
     }
 
     return response.json()
@@ -73,7 +73,19 @@ export const taskAPI = {
 
     if (!response.ok) {
       const error = await response.json()
-      throw new Error(error.error || 'Failed to delete task')
+      throw new Error(error.error || 'Failed to delete task.')
     }
+  },
+
+  getStats: async (): Promise<TaskStats> => {
+    const response = await fetch(`${BACKEND_URL}/stats`, {
+      headers: getHeaders()
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch task statistics.')
+    }
+
+    return response.json()
   }
 }
