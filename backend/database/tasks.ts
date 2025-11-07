@@ -5,6 +5,13 @@ export const createTask = async (
   user_Id: string,
   taskData: CreateTaskInput
 ): Promise<Task> => {
+  let createdDate
+  let completedDate
+
+  if (taskData.status === 'done') {
+    createdDate = new Date().toISOString()
+    completedDate = new Date().toISOString()
+  }
   const { data, error } = await supabase
     .from('tasks')
     .insert([
@@ -13,7 +20,9 @@ export const createTask = async (
         title: taskData.title,
         description: taskData.description || null,
         status: taskData.status || 'todo',
-        priority: taskData.priority || 'medium'
+        priority: taskData.priority || 'medium',
+        created_at: createdDate,
+        completed_at: completedDate
       }
     ])
     .select()
