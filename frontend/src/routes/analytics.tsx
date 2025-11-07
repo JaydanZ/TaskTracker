@@ -98,6 +98,8 @@ function RouteComponent() {
     priorityBreakdown
   } = stats
 
+  console.log(stats)
+
   // Prepare data for status chart
   const statusData = [
     { name: 'To Do', value: todoTasks, color: COLORS.todo },
