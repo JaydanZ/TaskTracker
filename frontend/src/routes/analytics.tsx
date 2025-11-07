@@ -120,22 +120,19 @@ function RouteComponent() {
 
   return (
     <div className="max-w-7xl mx-auto py-8 px-4">
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-3xl font-bold text-orange-600">Analytics</h1>
+        <p className="text-white font-medium mt-1">
           Overview of your task performance, {auth.user?.user_id}
         </p>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Total Tasks */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Tasks</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">
+              <p className="text-sm font-medium text-white">Total Tasks</p>
+              <p className="text-3xl font-bold text-blue-600 mt-2">
                 {totalTasks}
               </p>
             </div>
@@ -157,15 +154,14 @@ function RouteComponent() {
           </div>
         </div>
 
-        {/* Completed Tasks */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Completed</p>
+              <p className="text-sm font-medium text-white">Completed</p>
               <p className="text-3xl font-bold text-green-600 mt-2">
                 {completedTasks}
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-400 mt-1">
                 {totalTasks > 0
                   ? `${Math.round(
                       (completedTasks / totalTasks) * 100
@@ -191,15 +187,14 @@ function RouteComponent() {
           </div>
         </div>
 
-        {/* Pending Tasks */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900  p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Pending</p>
+              <p className="text-sm font-medium text-white">Pending</p>
               <p className="text-3xl font-bold text-orange-600 mt-2">
                 {pendingTasks}
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-400 mt-1">
                 {totalTasks > 0
                   ? `${Math.round(
                       (pendingTasks / totalTasks) * 100
@@ -226,9 +221,8 @@ function RouteComponent() {
         </div>
       </div>
 
-      {/* Average Completion Time Card */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6 mb-8">
+        <h2 className="text-lg font-semibold text-white mb-4">
           Average Completion Time
         </h2>
         {completedTasksCount > 0 ? (
@@ -236,32 +230,30 @@ function RouteComponent() {
             <p className="text-4xl font-bold text-blue-600">
               {averageCompletionTime.toFixed(1)}
             </p>
-            <p className="text-xl text-gray-600 mb-1">days</p>
+            <p className="text-xl text-gray-200 mb-1">days</p>
           </div>
         ) : (
-          <p className="text-gray-500">
+          <p className="text-gray-400">
             No completed tasks yet to calculate average time
           </p>
         )}
-        <p className="text-sm text-gray-500 mt-2">
+        <p className="text-sm text-gray-400 mt-2">
           Based on {completedTasksCount} completed task
           {completedTasksCount !== 1 ? 's' : ''}
         </p>
       </div>
 
-      {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* Status Bar Chart */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">
+        <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
+          <h2 className="text-lg font-semibold text-white mb-6">
             Tasks by Status
           </h2>
           {totalTasks > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={statusData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis allowDecimals={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="white" />
+                <XAxis dataKey="name" stroke="white" />
+                <YAxis allowDecimals={false} stroke="white" />
                 <Tooltip />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {statusData.map((entry, index) => (
@@ -271,23 +263,22 @@ function RouteComponent() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-gray-500 text-center py-8">
+            <p className="text-gray-400 text-center py-8">
               No tasks to display
             </p>
           )}
         </div>
 
-        {/* Priority Bar Chart */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">
+        <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
+          <h2 className="text-lg font-semibold text-white mb-6">
             Tasks by Priority
           </h2>
           {totalTasks > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={priorityData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis allowDecimals={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="white" />
+                <XAxis dataKey="name" stroke="white" />
+                <YAxis allowDecimals={false} stroke="white" />
                 <Tooltip />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {priorityData.map((entry, index) => (
@@ -297,17 +288,16 @@ function RouteComponent() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-gray-500 text-center py-8">
+            <p className="text-gray-400 text-center py-8">
               No tasks to display
             </p>
           )}
         </div>
       </div>
 
-      {/* Pie Chart - Completion Overview */}
       {totalTasks > 0 && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">
+        <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
+          <h2 className="text-lg font-semibold text-white mb-6">
             Completion Overview
           </h2>
           <div className="flex flex-col md:flex-row items-center justify-center gap-8">
@@ -331,7 +321,6 @@ function RouteComponent() {
               </PieChart>
             </ResponsiveContainer>
 
-            {/* Legend */}
             <div className="space-y-3">
               {completionData.map((entry, index) => (
                 <div key={index} className="flex items-center gap-3">
@@ -340,10 +329,10 @@ function RouteComponent() {
                     style={{ backgroundColor: entry.color }}
                   />
                   <div>
-                    <p className="text-sm font-medium text-gray-700">
+                    <p className="text-sm font-medium text-gray-300">
                       {entry.name}
                     </p>
-                    <p className="text-lg font-semibold text-gray-900">
+                    <p className="text-lg font-semibold text-white">
                       {entry.value} (
                       {Math.round((entry.value / totalTasks) * 100)}%)
                     </p>
