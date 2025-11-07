@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { taskAPI } from '../utils/tasksAPI'
 import { CreateTaskInput } from '../types/task'
+import clsx from 'clsx'
 
 export const Route = createFileRoute('/addTask')({
   component: RouteComponent
@@ -58,7 +59,10 @@ function RouteComponent() {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={clsx(
+                'mt-3 block w-full rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25'
+              )}
               placeholder="Enter task title"
               required
             />
@@ -73,7 +77,10 @@ function RouteComponent() {
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={clsx(
+                'mt-3 block w-full rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25'
+              )}
               placeholder="Enter task description"
               rows={4}
             />
@@ -89,7 +96,11 @@ function RouteComponent() {
                 onChange={(e) =>
                   setFormData({ ...formData, priority: e.target.value as any })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className={clsx(
+                  'mt-3 block w-full appearance-none rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                  'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25',
+                  '*:text-black'
+                )}
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -106,7 +117,11 @@ function RouteComponent() {
                 onChange={(e) =>
                   setFormData({ ...formData, status: e.target.value as any })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className={clsx(
+                  'mt-3 block w-full appearance-none rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                  'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25',
+                  '*:text-black'
+                )}
               >
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
@@ -136,7 +151,7 @@ function RouteComponent() {
             <button
               type="submit"
               disabled={createMutation.isPending}
-              className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 bg-lime-400 text-black rounded-md hover:bg-lime-600 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {createMutation.isPending ? 'Creating...' : 'Create Task'}
             </button>

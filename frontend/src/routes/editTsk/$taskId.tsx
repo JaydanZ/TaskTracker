@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState, useEffect } from 'react'
 import { taskAPI } from '../../utils/tasksAPI'
 import { UpdateTaskInput } from '../../types/task'
+import clsx from 'clsx'
 
 export const Route = createFileRoute('/editTsk/$taskId')({
   component: RouteComponent
@@ -80,18 +81,18 @@ function RouteComponent() {
       <div className="mb-6">
         <button
           onClick={() => navigate({ to: '/tasks' })}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="text-orange-600 hover:text-orange-800 text-sm font-medium"
         >
           ← Back to Tasks
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Task</h1>
+      <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
+        <h1 className="text-2xl font-bold text-orange-500 mb-6">Edit Task</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-200 mb-2">
               Title *
             </label>
             <input
@@ -100,14 +101,17 @@ function RouteComponent() {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={clsx(
+                'mt-3 block w-full rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25'
+              )}
               placeholder="Enter task title"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-200 mb-2">
               Description
             </label>
             <textarea
@@ -115,7 +119,10 @@ function RouteComponent() {
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={clsx(
+                'mt-3 block w-full rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25'
+              )}
               placeholder="Enter task description"
               rows={4}
             />
@@ -123,7 +130,7 @@ function RouteComponent() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-200 mb-2">
                 Priority
               </label>
               <select
@@ -131,7 +138,11 @@ function RouteComponent() {
                 onChange={(e) =>
                   setFormData({ ...formData, priority: e.target.value as any })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className={clsx(
+                  'mt-3 block w-full appearance-none rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                  'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25',
+                  '*:text-black'
+                )}
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -140,7 +151,7 @@ function RouteComponent() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-200 mb-2">
                 Status
               </label>
               <select
@@ -148,7 +159,11 @@ function RouteComponent() {
                 onChange={(e) =>
                   setFormData({ ...formData, status: e.target.value as any })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className={clsx(
+                  'mt-3 block w-full appearance-none rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                  'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25',
+                  '*:text-black'
+                )}
               >
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
@@ -171,14 +186,14 @@ function RouteComponent() {
             <button
               type="button"
               onClick={() => navigate({ to: '/tasks' })}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 font-medium"
+              className="flex-1 px-4 py-2 border border-red-500 bg-red-500 rounded-md hover:bg-red-700 font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={updateMutation.isPending}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 bg-lime-400 text-black rounded-md hover:bg-lime-600 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
             </button>
