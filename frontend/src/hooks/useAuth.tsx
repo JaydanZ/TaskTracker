@@ -51,7 +51,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      console.log(data)
       sessionStorage.setItem('authToken', data.token)
       queryClient.setQueryData(['currentUser'], data.user)
     }

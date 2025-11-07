@@ -39,8 +39,8 @@ function RouteComponent() {
     }
   })
   return (
-    <div className="h-dvh flex justify-center items-center">
-      <div className="w-[500px] h-[400px] bg-zinc-900 flex flex-col items-start p-6 rounded-md">
+    <div className="max-w-7xl mx-auto py-20 px-4 flex justify-center items-center">
+      <div className="w-[500px] h-[430px] bg-zinc-900 flex flex-col items-start p-6 rounded-md">
         <div className="text-white font-medium text-[2rem]">
           Register Account
         </div>

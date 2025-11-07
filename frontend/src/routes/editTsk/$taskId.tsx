@@ -55,7 +55,7 @@ function RouteComponent() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading task...</div>
+        <div className="text-lg text-white font-semibold">Loading task...</div>
       </div>
     )
   }

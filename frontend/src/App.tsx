@@ -18,6 +18,7 @@ const router = createRouter({
   routeTree,
   context: { auth: undefined! as AuthContextType }
 })
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
