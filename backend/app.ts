@@ -1,5 +1,6 @@
 import express from 'express'
 import authRoutes from './routes/auth'
+import taskRoutes from './routes/tasks'
 import cors from 'cors'
 import helmet from 'helmet'
 import { config } from './config'
@@ -20,5 +21,6 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use(authRoutes)
+app.use(taskRoutes)
 
 app.listen(port, () => console.log(`Listening on port ${port}...`))

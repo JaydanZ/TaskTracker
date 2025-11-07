@@ -1,34 +1,78 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
-import { taskAPI } from '../utils/tasksAPI'
-import { CreateTaskInput } from '../types/task'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState, useEffect } from 'react'
+import { taskAPI } from '../../utils/tasksAPI'
+import { UpdateTaskInput } from '../../types/task'
 
-export const Route = createFileRoute('/addTask')({
+export const Route = createFileRoute('/editTsk/$taskId')({
   component: RouteComponent
 })
 
 function RouteComponent() {
+  const { taskId } = Route.useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [formData, setFormData] = useState<CreateTaskInput>({
+
+  const { data: task, isLoading } = useQuery({
+    queryKey: ['tasks', taskId],
+    queryFn: () => taskAPI.getTask(taskId)
+  })
+
+  const [formData, setFormData] = useState<UpdateTaskInput>({
     title: '',
     description: '',
     priority: 'medium',
     status: 'todo'
   })
 
-  const createMutation = useMutation({
-    mutationFn: taskAPI.createTask,
+  useEffect(() => {
+    if (task) {
+      setFormData({
+        title: task.title,
+        description: task.description || '',
+        priority: task.priority,
+        status: task.status
+      })
+    }
+  }, [task])
+
+  const updateMutation = useMutation({
+    mutationFn: (updates: UpdateTaskInput) =>
+      taskAPI.updateTask(taskId, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      queryClient.invalidateQueries({ queryKey: ['tasks', taskId] })
       navigate({ to: '/tasks' })
     }
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    createMutation.mutate(formData)
+    updateMutation.mutate(formData)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading task...</div>
+      </div>
+    )
+  }
+
+  if (!task) {
+    return (
+      <div className="max-w-2xl mx-auto py-8 px-4">
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <p className="text-red-800">Task not found</p>
+          <button
+            onClick={() => navigate({ to: '/tasks' })}
+            className="mt-2 text-sm text-red-600 hover:text-red-800"
+          >
+            ← Back to Tasks
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -36,20 +80,18 @@ function RouteComponent() {
       <div className="mb-6">
         <button
           onClick={() => navigate({ to: '/tasks' })}
-          className="text-orange-600 hover:text-orange-700 text-sm font-medium"
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
         >
           ← Back to Tasks
         </button>
       </div>
 
-      <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-6">
-        <h1 className="text-2xl font-bold text-orange-500 mb-6">
-          Create New Task
-        </h1>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Task</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-zinc-100 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Title *
             </label>
             <input
@@ -65,7 +107,7 @@ function RouteComponent() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-zinc-100 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Description
             </label>
             <textarea
@@ -81,7 +123,7 @@ function RouteComponent() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-zinc-100 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Priority
               </label>
               <select
@@ -98,7 +140,7 @@ function RouteComponent() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-100 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Status
               </label>
               <select
@@ -115,12 +157,12 @@ function RouteComponent() {
             </div>
           </div>
 
-          {createMutation.isError && (
+          {updateMutation.isError && (
             <div className="bg-red-50 border border-red-200 rounded-md p-4">
               <p className="text-sm text-red-800">
-                {createMutation.error instanceof Error
-                  ? createMutation.error.message
-                  : 'Failed to create task'}
+                {updateMutation.error instanceof Error
+                  ? updateMutation.error.message
+                  : 'Failed to update task'}
               </p>
             </div>
           )}
@@ -129,16 +171,16 @@ function RouteComponent() {
             <button
               type="button"
               onClick={() => navigate({ to: '/tasks' })}
-              className="flex-1 px-4 py-2 border border-red-500 bg-red-500 rounded-md hover:bg-red-700 font-medium"
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={createMutation.isPending}
-              className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={updateMutation.isPending}
+              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {createMutation.isPending ? 'Creating...' : 'Create Task'}
+              {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         </form>

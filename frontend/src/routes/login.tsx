@@ -1,4 +1,9 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  redirect,
+  useNavigate
+} from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { Button } from '@headlessui/react'
 import clsx from 'clsx'
@@ -31,7 +36,8 @@ function RouteComponent() {
       const password = value.password
 
       try {
-        await auth.login({ user_id, password })
+        const response = await auth.login({ user_id, password })
+
         navigate({ to: '/tasks' })
       } catch (error) {
         setError(error instanceof Error ? error.message : 'Login failed')

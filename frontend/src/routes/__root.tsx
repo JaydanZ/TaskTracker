@@ -1,36 +1,34 @@
 import * as React from 'react'
-import { Outlet, createRootRoute, Link } from '@tanstack/react-router'
+import {
+  Outlet,
+  createRootRouteWithContext,
+  Link,
+  useNavigate
+} from '@tanstack/react-router'
 import {
   Disclosure,
   DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems
+  DisclosurePanel
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { AuthContextType, useAuth } from 'hooks/useAuth'
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+  auth: AuthContextType
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent
 })
 
-const navigation = [
-  {
-    name: 'Tasks',
-    href: '/tasks'
-  },
-  {
-    name: 'Analytics',
-    href: '/analytics'
-  },
-  {
-    name: 'login',
-    href: '/login'
-  }
-]
-
 function RootComponent() {
+  const auth = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await auth.logout()
+    navigate({ to: '/login' })
+  }
   return (
     <div className="min-h-screen bg-zinc-950">
       <Disclosure
@@ -63,14 +61,35 @@ function RootComponent() {
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  {navigation.map((item) => (
+                  {auth.isAuthenticated ? (
+                    <>
+                      <Link
+                        className="text-gray-300 hover:bg-white/5 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                        to="/tasks"
+                      >
+                        Tasks
+                      </Link>
+                      <Link
+                        className="text-gray-300 hover:bg-white/5 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                        to="/analytics"
+                      >
+                        Analytics
+                      </Link>
+                      <button
+                        className="text-gray-300 hover:bg-white/5 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
                     <Link
                       className="text-gray-300 hover:bg-white/5 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                      to={item.href}
+                      to="/login"
                     >
-                      {item.name}
+                      Login
                     </Link>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
@@ -78,14 +97,30 @@ function RootComponent() {
         </div>
         <DisclosurePanel className="sm:hidden">
           <div className="space-y-1 px-2 pt-2 pb-3">
-            {navigation.map((item) => (
-              <Link
-                className="text-gray-300 hover:bg-white/5 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-                to={item.href}
-              >
-                {item.name}
-              </Link>
-            ))}
+            <Link
+              className="text-gray-300 hover:bg-white/5 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              to="/tasks"
+            >
+              Tasks
+            </Link>
+            <Link
+              className="text-gray-300 hover:bg-white/5 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              to="/analytics"
+            >
+              Analytics
+            </Link>
+            <Link
+              className="text-gray-300 hover:bg-white/5 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              to="/login"
+            >
+              Login
+            </Link>
+            <Link
+              className="text-gray-300 hover:bg-white/5 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              to="/login"
+            >
+              Logout
+            </Link>
           </div>
         </DisclosurePanel>
       </Disclosure>

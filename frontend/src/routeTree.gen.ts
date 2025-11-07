@@ -12,9 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as EditTskRouteImport } from './routes/editTsk'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AddTaskRouteImport } from './routes/addTask'
+import { Route as EditTskTaskIdRouteImport } from './routes/editTsk/$taskId'
 
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
@@ -31,11 +31,6 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EditTskRoute = EditTskRouteImport.update({
-  id: '/editTsk',
-  path: '/editTsk',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -46,60 +41,71 @@ const AddTaskRoute = AddTaskRouteImport.update({
   path: '/addTask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditTskTaskIdRoute = EditTskTaskIdRouteImport.update({
+  id: '/editTsk/$taskId',
+  path: '/editTsk/$taskId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/addTask': typeof AddTaskRoute
   '/analytics': typeof AnalyticsRoute
-  '/editTsk': typeof EditTskRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/tasks': typeof TasksRoute
+  '/editTsk/$taskId': typeof EditTskTaskIdRoute
 }
 export interface FileRoutesByTo {
   '/addTask': typeof AddTaskRoute
   '/analytics': typeof AnalyticsRoute
-  '/editTsk': typeof EditTskRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/tasks': typeof TasksRoute
+  '/editTsk/$taskId': typeof EditTskTaskIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/addTask': typeof AddTaskRoute
   '/analytics': typeof AnalyticsRoute
-  '/editTsk': typeof EditTskRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/tasks': typeof TasksRoute
+  '/editTsk/$taskId': typeof EditTskTaskIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/addTask'
     | '/analytics'
-    | '/editTsk'
     | '/login'
     | '/register'
     | '/tasks'
+    | '/editTsk/$taskId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/addTask' | '/analytics' | '/editTsk' | '/login' | '/register' | '/tasks'
+  to:
+    | '/addTask'
+    | '/analytics'
+    | '/login'
+    | '/register'
+    | '/tasks'
+    | '/editTsk/$taskId'
   id:
     | '__root__'
     | '/addTask'
     | '/analytics'
-    | '/editTsk'
     | '/login'
     | '/register'
     | '/tasks'
+    | '/editTsk/$taskId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AddTaskRoute: typeof AddTaskRoute
   AnalyticsRoute: typeof AnalyticsRoute
-  EditTskRoute: typeof EditTskRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   TasksRoute: typeof TasksRoute
+  EditTskTaskIdRoute: typeof EditTskTaskIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -125,13 +131,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/editTsk': {
-      id: '/editTsk'
-      path: '/editTsk'
-      fullPath: '/editTsk'
-      preLoaderRoute: typeof EditTskRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/analytics': {
       id: '/analytics'
       path: '/analytics'
@@ -146,16 +145,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AddTaskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/editTsk/$taskId': {
+      id: '/editTsk/$taskId'
+      path: '/editTsk/$taskId'
+      fullPath: '/editTsk/$taskId'
+      preLoaderRoute: typeof EditTskTaskIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AddTaskRoute: AddTaskRoute,
   AnalyticsRoute: AnalyticsRoute,
-  EditTskRoute: EditTskRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   TasksRoute: TasksRoute,
+  EditTskTaskIdRoute: EditTskTaskIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

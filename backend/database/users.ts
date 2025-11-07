@@ -24,7 +24,25 @@ export const createUser = async (userData: {
   return data
 }
 
-export const findUserById = async (user_id: string): Promise<User | null> => {
+export const findUserById = async (id: string): Promise<User | null> => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return null
+    }
+    throw new Error(error.message)
+  }
+  return data
+}
+
+export const findUserByUserId = async (
+  user_id: string
+): Promise<User | null> => {
   const { data, error } = await supabase
     .from('users')
     .select('*')
@@ -37,5 +55,6 @@ export const findUserById = async (user_id: string): Promise<User | null> => {
     }
     throw new Error(error.message)
   }
+
   return data
 }

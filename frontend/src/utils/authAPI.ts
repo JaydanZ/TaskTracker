@@ -10,7 +10,7 @@ const getHeaders = (includeAuth = false): HeadersInit => {
   if (includeAuth) {
     const token = sessionStorage.getItem('authToken')
     if (token) {
-      headers['Authorization'] = `Bearer ${token}`
+      headers['Authorization'] = `Bearer${token}`
     }
   }
 
@@ -24,9 +24,14 @@ export const loginUser = async (credentials: UserCredentials) => {
       headers: getHeaders(),
       body: JSON.stringify(credentials)
     })
+
+    if (!response.ok) {
+      throw new Error('User credentials are invalid.')
+    }
+
     return response.json()
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
 
@@ -37,9 +42,14 @@ export const signupUser = async (credentials: UserCredentials) => {
       headers: getHeaders(),
       body: JSON.stringify(credentials)
     })
+
+    if (!response.ok) {
+      throw new Error('User cannot be created.')
+    }
+
     return response.json()
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
 
@@ -59,8 +69,13 @@ export const getCurrentUser = async () => {
     const response = await fetch(`${BACKEND_URL}/me`, {
       headers: getHeaders(true)
     })
+
+    if (!response.ok) {
+      throw new Error('Could not pull user data.')
+    }
+
     return response.json()
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }

@@ -13,13 +13,14 @@ import {
 } from 'utils/authAPI'
 import { User, UserCredentials } from 'types/auth'
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null
   isLoading: boolean
   isAuthenticated: boolean
   login: (credentials: UserCredentials) => Promise<void>
   signup: (credentials: UserCredentials) => Promise<void>
   logout: () => Promise<void>
+  error: Error | null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -27,7 +28,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient()
 
-  const { data: user, isLoading } = useQuery({
+  const {
+    data: user,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['currentUser'],
     queryFn: async () => {
       const token = sessionStorage.getItem('authToken')
@@ -46,8 +51,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      console.log(data)
       sessionStorage.setItem('authToken', data.token)
-      queryClient.setQueryData(['currentUser'], data.userid)
+      queryClient.setQueryData(['currentUser'], data.user)
     }
   })
 
@@ -55,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: signupUser,
     onSuccess: (data) => {
       sessionStorage.setItem('authToken', data.token)
-      queryClient.setQueryData(['currentUser'], data.userid)
+      queryClient.setQueryData(['currentUser'], data.user)
     }
   })
 
@@ -88,7 +94,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: !!user,
         login,
         signup,
-        logout
+        logout,
+        error
       }}
     >
       {children}

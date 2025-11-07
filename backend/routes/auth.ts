@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { createUser, findUserById } from '../database/users'
+import { createUser, findUserById, findUserByUserId } from '../database/users'
 import { hashPassword, comparePassword } from '../utils/passwordUtils'
 import { generateToken } from '../utils/jwt'
 import { config } from '../config'
@@ -9,7 +9,7 @@ export interface AuthRequest extends Request {
   userId?: string
 }
 
-const authMiddleware = async (
+export const authMiddleware = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
@@ -23,6 +23,7 @@ const authMiddleware = async (
     }
 
     const decoded = jwt.verify(token, config.jwtSecret) as { userId: string }
+
     req.userId = decoded.userId
     next()
   } catch (error) {
@@ -64,7 +65,7 @@ router.post('/login', async (req, res) => {
       return
     }
 
-    const user = await findUserById(user_id)
+    const user = await findUserByUserId(user_id)
     if (!user) {
       res.status(401).json({ error: 'Invalid Credentials' })
       return
@@ -109,7 +110,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Check if user exists
-    const existingUser = await findUserById(user_id)
+    const existingUser = await findUserByUserId(user_id)
     if (existingUser) {
       res.status(400).json({ error: 'User already exists' })
       return
