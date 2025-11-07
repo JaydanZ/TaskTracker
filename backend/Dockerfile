@@ -15,7 +15,7 @@ RUN pnpm install
 COPY . .
 
 # Build TypeScript
-RUN pnpm build
+RUN pnpm run build
 
 EXPOSE 5000
 
