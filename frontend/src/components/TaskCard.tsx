@@ -42,7 +42,7 @@ function TaskCard({
   }
 
   return (
-    <div className="bg-zinc-800 rounded-lg p-5 shadow-sm border border-zinc-800 w-full sm:w-80 flex-shrink-0">
+    <div className="bg-zinc-900 rounded-lg p-5 shadow-sm border border-zinc-900 w-full sm:w-80 flex-shrink-0">
       <div className="flex justify-between items-start mb-3">
         <h3 className="font-semibold text-white text-lg">{task.title}</h3>
         <div className="flex gap-2">
@@ -64,7 +64,7 @@ function TaskCard({
       </div>
 
       {task.description && (
-        <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+        <p className="text-sm text-gray-400 mb-4 line-clamp-3">
           {task.description}
         </p>
       )}
