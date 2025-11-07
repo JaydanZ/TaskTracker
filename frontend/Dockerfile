@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm run build
 
 # Install serve to run the built app
-RUN pnpm add -g serve
+RUN pnpm add serve
 
 EXPOSE 3000
 
