@@ -18,9 +18,6 @@ COPY . .
 # Build the app
 RUN pnpm run build
 
-# Install serve to run the built app
-RUN pnpm add serve
-
 EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["node", "dist/app.js"]
