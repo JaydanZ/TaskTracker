@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import TaskCard from '../components/TaskCard'
 import { TaskPriority, TaskStatus } from 'types/task'
 import { taskAPI } from 'utils/tasksAPI'
+import clsx from 'clsx'
 
 export const Route = createFileRoute('/tasks')({
   component: RouteComponent
@@ -101,11 +102,10 @@ function RouteComponent() {
         </Link>
       </div>
 
-      {/* Filters Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+      <div className="bg-zinc-900 rounded-lg shadow-sm border border-zinc-900 p-4 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Status
             </label>
             <select
@@ -113,7 +113,11 @@ function RouteComponent() {
               onChange={(e) =>
                 setStatusFilter(e.target.value as TaskStatus | 'all')
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={clsx(
+                'mt-3 block w-full appearance-none rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25',
+                '*:text-black'
+              )}
             >
               <option value="all">All ({taskCounts.all})</option>
               <option value="todo">To Do ({taskCounts.todo})</option>
@@ -125,7 +129,7 @@ function RouteComponent() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Priority
             </label>
             <select
@@ -133,7 +137,11 @@ function RouteComponent() {
               onChange={(e) =>
                 setPriorityFilter(e.target.value as TaskPriority | 'all')
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={clsx(
+                'mt-3 block w-full appearance-none rounded-lg border-none bg-white/10 px-3 py-1.5 text-sm/6 text-white',
+                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25',
+                '*:text-black'
+              )}
             >
               <option value="all">All Priorities</option>
               <option value="high">High</option>
@@ -156,17 +164,17 @@ function RouteComponent() {
       </div>
 
       {filteredTasks.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
+        <div className="text-center py-12 bg-zinc-900 rounded-lg">
           {tasks.length === 0 ? (
             <>
-              <p className="text-gray-500 text-lg">No tasks yet</p>
+              <p className="text-gray-400 text-lg">No tasks yet</p>
               <p className="text-gray-400 text-sm mt-2">
                 Click "New Task" to create your first task
               </p>
             </>
           ) : (
             <>
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-400 text-lg">
                 No tasks match your filters
               </p>
               <p className="text-gray-400 text-sm mt-2">
