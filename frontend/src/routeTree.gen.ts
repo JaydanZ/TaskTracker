@@ -14,7 +14,6 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AddTaskRouteImport } from './routes/addTask'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as EditTskTaskIdRouteImport } from './routes/editTsk/$taskId'
 
 const TasksRoute = TasksRouteImport.update({
@@ -42,11 +41,6 @@ const AddTaskRoute = AddTaskRouteImport.update({
   path: '/addTask',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EditTskTaskIdRoute = EditTskTaskIdRouteImport.update({
   id: '/editTsk/$taskId',
   path: '/editTsk/$taskId',
@@ -54,7 +48,6 @@ const EditTskTaskIdRoute = EditTskTaskIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/addTask': typeof AddTaskRoute
   '/analytics': typeof AnalyticsRoute
   '/login': typeof LoginRoute
@@ -63,7 +56,6 @@ export interface FileRoutesByFullPath {
   '/editTsk/$taskId': typeof EditTskTaskIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/addTask': typeof AddTaskRoute
   '/analytics': typeof AnalyticsRoute
   '/login': typeof LoginRoute
@@ -73,7 +65,6 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/addTask': typeof AddTaskRoute
   '/analytics': typeof AnalyticsRoute
   '/login': typeof LoginRoute
@@ -84,7 +75,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/addTask'
     | '/analytics'
     | '/login'
@@ -93,7 +83,6 @@ export interface FileRouteTypes {
     | '/editTsk/$taskId'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/addTask'
     | '/analytics'
     | '/login'
@@ -102,7 +91,6 @@ export interface FileRouteTypes {
     | '/editTsk/$taskId'
   id:
     | '__root__'
-    | '/'
     | '/addTask'
     | '/analytics'
     | '/login'
@@ -112,7 +100,6 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AddTaskRoute: typeof AddTaskRoute
   AnalyticsRoute: typeof AnalyticsRoute
   LoginRoute: typeof LoginRoute
@@ -158,13 +145,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AddTaskRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/editTsk/$taskId': {
       id: '/editTsk/$taskId'
       path: '/editTsk/$taskId'
@@ -176,7 +156,6 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AddTaskRoute: AddTaskRoute,
   AnalyticsRoute: AnalyticsRoute,
   LoginRoute: LoginRoute,
